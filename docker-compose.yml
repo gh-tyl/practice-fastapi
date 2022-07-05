@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  api:
+    container_name: fastapi
+    build: ./
+    command: uvicorn main:app --host ${HOST} --port ${PORT} --reload
+    volumes:
+      - ./src:/src
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - ./.env
+    environment:
+      HOST: ${HOST}
+      PORT: ${PORT}
+      DEBUG: ${DEBUG}
+      LC_ALL: ${LC_ALL}
+      PYTHONUNBUFFERED: ${PYTHONUNBUFFERED}
+      PYTHONIOENCODING: ${PYTHONIOENCODING}
+      # DB_HOST: ${DB_HOST}
+      # DB_PORT: ${DB_PORT}
+      # DB_NAME: ${DB_NAME}
+      # DB_USER: ${DB_USER}
+      # DB_PASS: ${DB_PASS}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
