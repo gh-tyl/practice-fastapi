@@ -7,7 +7,6 @@ RUN apt-get update && \
 RUN mkdir /src
 WORKDIR /src
 COPY requirements.txt /src/
-
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1 && \
     pip3 install --upgrade pip setuptools wheel && \

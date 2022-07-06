@@ -2,7 +2,7 @@ version: '3'
 
 services:
   api:
-    container_name: fastapi
+    container_name: rssd_backend
     build: ./
     command: uvicorn main:app --host ${HOST} --port ${PORT} --reload
     volumes:
