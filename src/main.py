@@ -1,4 +1,8 @@
+import os
+from base64 import b64decode, b64encode
+
 from fastapi import FastAPI
+from genericpath import isdir
 from starlette.middleware.cors import CORSMiddleware
 
 import aialgo8
@@ -26,9 +30,32 @@ class Sentence(dict):
 
 
 @app.post("/aialgo8/")
-def main_aialgo8(sentence: Sentence):
+def main(sentence: Sentence):
     print(f"sentence: {sentence}")
     sentence = sentence["sentence"]
     words = aialgo8.words_genkei(sentence)
     print(f"words: {words}")
     return words
+
+
+class Filedata(dict):
+    filename = ""
+    data = bytes
+
+
+@app.post("/aialgo3/")
+def main(filedata: Filedata):
+    print(f"filedata: {filedata}")
+    filename = filedata["filename"]
+    data: str = str(filedata["data"])
+    print(f"data: {data}")
+    print(f"data_type: {type(data)}")
+    data = bytes(data, encoding="utf-8")
+    print(f"data: {data}")
+    print(f"data_type: {type(data)}")
+    data_dir: str = "data"
+    if not os.path.isdir(data_dir):
+        os.makedirs(data_dir)
+    with open(os.path.join(data_dir, filename), "wb") as f:
+        f.write(b64decode(data))
+    return True
