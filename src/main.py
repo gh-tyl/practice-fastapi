@@ -1,3 +1,4 @@
+import copy
 import os
 from base64 import b64decode, b64encode
 
@@ -59,3 +60,15 @@ def main(filedata: Filedata):
     with open(os.path.join(data_dir, filename), "wb") as f:
         f.write(b64decode(data))
     return True
+
+
+@app.get("/aialgo7/")
+def main():
+    filepath: str = "./data/sample_metadata.csv"
+    # 1行ずつ読み込み
+    csv_data = open(filepath, "r").readlines()
+    # 二重配列に変換
+    csv_data_ = [d.split(",") for d in csv_data]
+    # 値をnuxtへ
+    data = {"statusCode": 200, "body": {"csv_data": csv_data_}}
+    return data
